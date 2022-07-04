@@ -1,7 +1,11 @@
+#Check time when script starts
 timestamp()
+#Remove all variables
 rm(list=ls())
+#Load tidyverse. Maybe only DPLYR should be loaded as I believe only it is used
 library(tidyverse)
 
+#Set the working directory. The top commented out line can be used if the files and R file is in the same directory.
 #setwd(dirname(rstudioapi::getActiveDocumentContext()$path ))
 setwd(dir = "/home/johannes/Documents/Tuks/AITA/")
 
@@ -11,7 +15,7 @@ vcitizentriage<- read.csv("vcitizentriage.csv")
 vhouseholdassessments<- read.csv("vhouseholdassessments.csv")
 vhouseholds<- read.csv("vhouseholds.csv")
 
-#Do Selects
+#Do Selects and remove original loaded set
 vcitizens_sel<-vcitizens%>%select('X_id_','lnk_household_fk','dob','age','gender','relationship','service_provider','sub_district','team','rownumber')%>%rename(citizen_id=X_id_)%>%rename(citizen_rownumber=rownumber)
 rm(vcitizens)
 vcitizentriage_sel<-vcitizentriage%>%select('X_id_','lnk_citizen_fk','anc_pregnant','anc_in_anc','anc_may_be_pregnant','child_neonate',
@@ -33,11 +37,13 @@ vhouseholdassessments_sel<-vhouseholdassessments%>%select('X_id_','lnk_household
                                                          'water_watertank','water_boreholewell','water_other','service_provider','sub_district','team','rownumber')%>%rename(householdassessment_id=X_id_)%>%rename(vhouseholdassessments_rownumber=rownumber)
 rm(vhouseholdassessments)
 
+#Do the joins 
 final_set<-vhouseholds_sel %>% filter(service_provider=='Tshwane District DoH'|service_provider=='City of Tshwane') %>%
                                 left_join(vhouseholdassessments_sel, by = c("household_id"="lnk_household_fk"))%>%
                                 left_join(vcitizens_sel, by = c("household_id"="lnk_household_fk"))%>%
                                 left_join(vcitizentriage_sel, by = c("citizen_id"="lnk_citizen_fk"))
-      
+#Write the file
 write.csv(final_set,"combined.csv")
+#Check time on completion
 timestamp()
 
