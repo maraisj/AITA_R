@@ -23,7 +23,7 @@ vcitizentriage_sel<-vcitizentriage%>%select('X_id_','lnk_citizen_fk','anc_pregna
                                             'hbc_gets_help','hiv_exposed','hiv_request_test','injecting_drug_use','pnc',
                                             'substance_use','substance_use_hh_support','tb_12mhx','tb_drx','tb_dx','tb_rx','tb_sx',
                                             'tb_sx_symptoms_cough','tb_sx_symptoms_fever','tb_sx_symptoms_loss_of_appetite',
-                                            'tb_sx_symptoms_loss_of_weight','tb_sx_symptoms_night_sweat')%>%rename(citizentriage_id=X_id_)
+                                            'tb_sx_symptoms_loss_of_weight','tb_sx_symptoms_night_sweat','cc')%>%rename(citizentriage_id=X_id_)
 rm(vcitizentriage)
 vhouseholds_sel<-vhouseholds%>%select('X_id_','hh_member_count','headofhousehold_gender','headofhousehold_dob','service_provider','sub_district',
                                       'team','gps_latitude','gps_longitude','gps_accuracy','rownumber')%>%rename(household_id=X_id_)%>%rename(vhouseholds_rownumber=rownumber)
